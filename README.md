@@ -1,26 +1,17 @@
 # swiggy-user-service
 
-This service is used to store the user details while signing up on a website
+This service is used to store the user details while signing up on the swiggy
 
-this service contains 4 APIs in total
+this service contains 2 APIs in total
 
 **routes information:**
 <br/>
 /user/signup
 this API stores user details in Postgres
-it stores the profile picture in the profile table in Postgres and the rest details in the users table in Postgres
+bases on role it segregates the data
 
-/user/user_details
-this API fetches user details in Postgres
-it fetches the profile picture from the profile table in Postgres and the rest details from the users table in Postgres with join
-
-/user/signup/v2
-this API stores user details in Postgres and MongoDB
-it stores the profile picture in the profile_mongo table in MongoDB and the rest details in the users_mongo table in Postgres
-
-/user/user_details/v2
-this API fetches user details in Postgres
-it fetches the profile picture from the profile_mongo table in MongoDB and the rest details from the users_mongo table in Postgres
+/user/get-user
+this API fetches user details from Postgres
 
 
 **steps to run**
