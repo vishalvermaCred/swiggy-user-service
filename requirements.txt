@@ -13,3 +13,5 @@ phonenumbers==8.13.18
 pymongo==4.4.1
 motor==3.2.0
 pillow==10.0.0
+pydantic==1.10.13
+pydantic_core==2.10.1
