@@ -9,6 +9,9 @@ LOGGER_KEY = "app.service"
 
 
 async def user_exists(phone_number):
+    """
+    checks if user exists with provided phone number
+    """
     logger.info(f"{LOGGER_KEY}.check_if_user_exists")
     select_query = f"select user_id from {Tables.USERS.value['name']} where phone_number = '{phone_number}';"
     user_data = await app_context.db.execute_raw_select_query(select_query)
