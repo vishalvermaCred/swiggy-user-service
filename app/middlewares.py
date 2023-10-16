@@ -1,3 +1,7 @@
+"""
+    functions declared here will be executed before the API runs
+"""
+
 import logging
 from http import HTTPStatus
 from fastapi import Request

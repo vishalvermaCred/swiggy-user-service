@@ -5,6 +5,10 @@ from pydantic.fields import Field
 
 from app.constants import email_regex, phone_regex, Roles, Address
 
+"""
+    creating models to validate the payload of APIs using pydantic
+"""
+
 
 class UserBaseModel(BaseModel):
     class Config:

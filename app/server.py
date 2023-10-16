@@ -18,17 +18,18 @@ from app.settings import BASE_ROUTE, LOG_LEVEL, SERVICE_NAME, USER_DB_CONFIGS
 app = FastAPI(docs_url=f"{BASE_ROUTE}/docs", redoc_url=f"{BASE_ROUTE}/redocs")
 app.add_middleware(LoginMiddleware)
 
-
+# Initializing routes
 async def _init_routers():
     app.include_router(router, prefix=BASE_ROUTE)
 
 
+# Initializing loggerr
 extra = {"app_name": SERVICE_NAME}
 logging.basicConfig(level=LOG_LEVEL, format=f"%(asctime)s {SERVICE_NAME} %(levelname)s : %(message)s")
 logger = logging.getLogger(__name__)
 logger = logging.LoggerAdapter(logger, extra)
 
-
+# verifying mandatory env configs
 async def verify_env_configs():
     mandatory_variables = [
         "ENV",
@@ -52,6 +53,7 @@ async def verify_env_configs():
     return True, []
 
 
+# Initializing DB
 async def _init_db():
     db_conf = USER_DB_CONFIGS.copy()
     kwargs = {
@@ -66,6 +68,7 @@ async def _init_db():
     return database
 
 
+# starting server
 @app.on_event("startup")
 async def startup_event():
     logger.info("SERVER STARTING...")
@@ -78,12 +81,14 @@ async def startup_event():
     logger.info("🟢 Postgres DB Connected...")
 
 
+# shutting down the server
 @app.on_event("shutdown")
 async def shutdown_event():
     await app_context.db.close()
     logger.info("🟢 App Shutdown Completed.")
 
 
+# exception handling for particular cases
 @app.exception_handler(413)
 def request_entity_too_large():
     return JSONResponse(content={"message": "File Too Large"}, status_code=413)
