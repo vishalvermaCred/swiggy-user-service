@@ -144,13 +144,14 @@ async def get_user_details(kwargs, headers):
         # extracting the filters
         user_id = kwargs.get("user_id")
         role = headers.get("role")
+        logger.info(f"user_id: {user_id}, role: {role}")
 
         # preparing the queries to extract data from DB
-        if role in [Roles.ADMIN.value or Roles.CUSTOMER.value]:
+        if role in [Roles.ADMIN.value, Roles.CUSTOMER.value]:
             select_query = f"SELECT u.name, u.email, u.phone_number, a.line, a.city, a.state, a.pincode From {Tables.USERS.value['name']} u inner join {Tables.ADDRESSES.value['name']} a using (user_id) where u.user_id = '{user_id}';"
-        if role == Roles.RESTATURANT.value:
+        elif role == Roles.RESTATURANT.value:
             select_query = f"SELECT u.name, u.email, u.phone_number, a.line, a.city, a.state, a.pincode, r.gst_number From {Tables.USERS.value['name']} u inner join {Tables.ADDRESSES.value['name']} a using (user_id) INNER JOIN {Tables.RESTAURANTS.value['name']} r using (user_id) where u.user_id = '{user_id}';"
-        if role == Roles.DELIVERY_PERSONNEL.value:
+        elif role == Roles.DELIVERY_PERSONNEL.value:
             select_query = f"SELECT u.name, u.email, u.phone_number, a.line, a.city, a.state, a.pincode, d.vehicle_type, d.vehicle_registration, d.availability From {Tables.USERS.value['name']} u inner join {Tables.ADDRESSES.value['name']} a using (user_id) INNER JOIN {Tables.DELIVERY_PERSONNELS.value['name']} d using (user_id) where u.user_id = '{user_id}';"
 
         # Executing query
